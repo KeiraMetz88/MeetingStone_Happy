@@ -335,9 +335,8 @@ CATEGORY = {
     },
     [10] = {
         groups = {
-            --地心之战： 329,324,322,327,328,326,323,325
-            --史诗钥石地下城：329,328 326, 323,56,262,265,146
-            --团队副本：
+            --更新方法：https://wago.tools/db2/GroupFinderActivity?locale=zhCN
+            --使用GroupFinderActivityGrpID
             [363] = true, -- 地心之战
             [329] = true, -- 千丝之城
             [324] = true, -- 圣焰隐修院
@@ -348,8 +347,10 @@ CATEGORY = {
             [323] = true, -- 艾拉-卡拉，回响之城
             [325] = true, -- 驭雷栖巢
             [371] = true, -- 水闸行动
+            [381] = true, -- 奥尔达尼生态圆顶
             [362] = true, -- 尼鲁巴尔王宫
             [377] = true, -- 解放安德麦
+            [378] = true, -- 法力熔炉：欧米伽
         },
         activities = {
             [1289] = true, -- 世界首领

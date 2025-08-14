@@ -57,11 +57,27 @@ end
 -- 伤逝剧场 266 / 717
 -- 水闸行动 371 / 1550
 
+--更新方法：https://wago.tools/db2/GroupFinderActivity?locale=zhCN
+--Dungeons = GroupFinderActivityGrpID
+--Activitys = ID（用史诗钥石版本）
+
+-- 11.2 S3
+-- local Dungeons = { 261, 280, 281, 323, 324, 326, 371, 381 }
+-- local Activitys = { 699, 1016, 1017, 1284, 1281, 1285, 1550, 1694 }
+-- 赎罪大厅 261 / 699
+-- 塔扎维什：琳彩天街 280 / 1016
+-- 塔扎维什：索·莉亚的宏图 281 / 1017
+-- 艾拉-卡拉，回响之城 323 / 1284
+-- 圣焰隐修院 324 / 1281
+-- 破晨号 326 / 1285
+-- 水闸行动 371 / 1550
+-- 奥尔达尼生态圆顶 381 / 1694
+
 -- 2023-01-01 使用ID，避免台服文字不匹配
 ACTIVITY_NAMES = {}
 do
-    -- 11.0 S2
-    local Activitys = { 1282, 1281, 1283, 1286, 510, 683, 717, 1550 }
+    -- 11.2 S3
+    local Activitys = { 699, 1016, 1017, 1284, 1281, 1285, 1550, 1694 }
     for k, actId in ipairs(Activitys) do
         local info = C_LFGList.GetActivityInfoTable(actId)
         tinsert(ACTIVITY_NAMES, info.fullName)

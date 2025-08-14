@@ -431,8 +431,8 @@ function ListOfDungeons(menuType)
     -- 围攻  659 / 146
 
     -- 11.1 S2
-    local Dungeons = { 322, 324, 325, 327, 140, 257, 266, 371 }
-    local Activitys = { 1282, 1281, 1283, 1286, 510, 683, 717, 1550 }
+    -- local Dungeons = { 322, 324, 325, 327, 140, 257, 266, 371 }
+    -- local Activitys = { 1282, 1281, 1283, 1286, 510, 683, 717, 1550 }
     -- 暗焰裂口 322 /1282
     -- 圣焰隐修院 324 / 1281
     -- 驭雷栖巢 325 / 1283
@@ -441,6 +441,22 @@ function ListOfDungeons(menuType)
     -- 麦卡贡车间 257 / 683
     -- 伤逝剧场 266 / 717
     -- 水闸行动 371 / 1550
+
+    --更新方法：https://wago.tools/db2/GroupFinderActivity?locale=zhCN
+    --Dungeons = GroupFinderActivityGrpID
+    --Activitys = ID（用史诗钥石版本）
+
+    -- 11.2 S3
+    local Dungeons = { 261, 280, 281, 323, 324, 326, 371, 381 }
+    local Activitys = { 699, 1016, 1017, 1284, 1281, 1285, 1550, 1694 }
+    -- 赎罪大厅 261 / 699
+    -- 塔扎维什：琳彩天街 280 / 1016
+    -- 塔扎维什：索·莉亚的宏图 281 / 1017
+    -- 艾拉-卡拉，回响之城 323 / 1284
+    -- 圣焰隐修院 324 / 1281
+    -- 破晨号 326 / 1285
+    -- 水闸行动 371 / 1550
+    -- 奥尔达尼生态圆顶 381 / 1694
 
 
     -- C_MythicPlus.IsMythicPlusActive()
