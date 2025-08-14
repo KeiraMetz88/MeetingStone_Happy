@@ -31,7 +31,7 @@ local APPLICANT_LIST_HEADER = {
             return applicant:GetShortName(), color.r, color.g, color.b
         end,
         atlasHandler = function(applicant)
-            local isLeaver = applicant:GetLeaver()
+            local isLeaver = applicant:IsLeaver()
             return isLeaver and "groupfinder-icon-leaver", true or nil
         end,
     },

@@ -573,7 +573,7 @@ function MainPanel:OpenApplicantTooltip(applicant)
     local itemLevel = applicant:GetItemLevel()
     local comment = applicant:GetMsg()
     local useHonorLevel = applicant:IsUseHonorLevel()
-    local isLeaver = applicant:GetLeaver()
+    local isLeaver = applicant:IsLeaver()
 
     GameTooltip:SetOwner(self, 'ANCHOR_NONE')
     GameTooltip:SetPoint('TOPLEFT', self, 'TOPRIGHT', 0, 0)
