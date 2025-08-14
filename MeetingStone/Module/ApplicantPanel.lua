@@ -25,15 +25,15 @@ local APPLICANT_LIST_HEADER = {
         key = 'Name',
         text = L['角色名'],
         width = 95,
-        style = 'LEFT',
+        style = 'ICONTEXT',
         showHandler = function(applicant)
             local color = applicant:GetResult() and RAID_CLASS_COLORS[applicant:GetClass()] or GRAY_FONT_COLOR
             return applicant:GetShortName(), color.r, color.g, color.b
         end,
         atlasHandler = function(applicant)
-            local isLeaver = applicant:GetIsLeaver()
-            return isLeaver and "groupfinder-icon-leaver" or nil
-        end
+            local isLeaver = applicant:GetLeaver()
+            return isLeaver and "groupfinder-icon-leaver", true or nil
+        end,
     },
     {
         key = 'Role',

@@ -456,6 +456,7 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
         -- Display Raid/Party Roles,code from PGF addon
         local roles = {}
         local classInfo = {}
+        local leavers = {}
         for i = 1, activity:GetNumMembers() do
             local role, class, classLocalized, specLocalized, _, isLeaver = LfgService:GetSearchResultMemberInfo(activity:GetID(), i)
             if (class) then
@@ -470,6 +471,11 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
                 if not groupHasLeaver then
                     groupHasLeaver = isLeaver
                 end
+                if not leavers[role] then leavers[role] = {} end
+                if not leavers[role][class .. specLocalized] then leavers[role][class .. specLocalized] = false end
+                if not leavers[role][class .. specLocalized] then
+                    leavers[role][class .. specLocalized] = isLeaver
+                end
             end
         end
 
@@ -482,6 +488,9 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
                     "|c" ..
                     classInfo[classAndspec].color.colorStr ..
                     classInfo[classAndspec].name .. " - " .. classInfo[classAndspec].spec .. "|r "
+                if leavers[role][classAndspec] then
+                    text = text .. " " .. CreateAtlasMarkup("groupfinder-icon-leaver", 12, 12, 0, 0)
+                end
                 tooltip:AddLine(text)
             end
         end
@@ -564,7 +573,7 @@ function MainPanel:OpenApplicantTooltip(applicant)
     local itemLevel = applicant:GetItemLevel()
     local comment = applicant:GetMsg()
     local useHonorLevel = applicant:IsUseHonorLevel()
-    local isLeaver = applicant:GetIsLeaver()
+    local isLeaver = applicant:GetLeaver()
 
     GameTooltip:SetOwner(self, 'ANCHOR_NONE')
     GameTooltip:SetPoint('TOPLEFT', self, 'TOPRIGHT', 0, 0)

@@ -186,7 +186,7 @@ function DataGridViewGridItem:SetIconAtlas(atlas, useAtlasSize)
     if not self.Icon then
         return
     end
-    if not atlas or not GetAtlasInfo(atlas) then
+    if not atlas or not C_Texture.GetAtlasInfo(atlas) then
         self.Icon:Hide()
         self.Icon:SetSize(1, 1)
         return

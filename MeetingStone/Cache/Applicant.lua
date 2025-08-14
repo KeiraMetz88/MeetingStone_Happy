@@ -39,7 +39,7 @@ Applicant:InitAttr {
     'BestDungeonScore',
     'FactionIndex',
     'SpecID',
-    'IsLeaver',
+    'Leaver',
 }
 
 local APPLICANT_HAD_RESULT = {
@@ -104,7 +104,7 @@ function Applicant:Constructor(id, index, activityId, isMythicPlusActivity)
     self:SetBestDungeonScore(bestDungeonScoreForEntry)
     self:SetFactionIndex(userFactionIndex)
     self:SetSpecID(specId)
-    self:SetIsLeaver(isLeaver)
+    self:SetLeaver(isLeaver)
     self:SetIsMeetingStone(isMeetingStone)
     if (pvpRatingInfo) then
         self:SetPvPRating(pvpRatingInfo.rating)
