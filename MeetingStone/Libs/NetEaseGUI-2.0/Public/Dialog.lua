@@ -120,7 +120,7 @@ function GUI:CallUrlDialog(url, title, showAlert)
 end
 
 function GUI:IsDialogVisible(key)
-    for i = 1, STATICPOPUP_NUMDIALOGS, 1 do
+    for i = 1, 4, 1 do
         local frame = _G['StaticPopup'..i]
         if frame:IsShown() and frame.which == 'NECLOUD_CONFIRM_DIALOG' and frame.data == key then
             return frame
