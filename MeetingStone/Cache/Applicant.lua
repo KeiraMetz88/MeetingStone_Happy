@@ -39,6 +39,7 @@ Applicant:InitAttr {
     'BestDungeonScore',
     'FactionIndex',
     'SpecID',
+    'IsLeaver',
 }
 
 local APPLICANT_HAD_RESULT = {
@@ -63,7 +64,7 @@ function Applicant:Constructor(id, index, activityId, isMythicPlusActivity)
     local isNew = info.isNew
     local comment = info.comment
     local orderID = info.displayOrderID
-    local name, class, localizedClass, level, itemLevel, honorLevel, tank, healer, damage, assignedRole, relationship, dungeonScore, pvpItemLevel, factionGroup, raceID, specId = C_LFGList.GetApplicantMemberInfo(id, index)
+    local name, class, localizedClass, level, itemLevel, honorLevel, tank, healer, damage, assignedRole, relationship, dungeonScore, pvpItemLevel, factionGroup, raceID, specId, isLeaver = C_LFGList.GetApplicantMemberInfo(id, index)
     local userFactionIndex = factionGroup
     local msg, isMeetingStone, progression, pvpRating, source = DecodeDescriptionData(comment)
 
@@ -103,6 +104,7 @@ function Applicant:Constructor(id, index, activityId, isMythicPlusActivity)
     self:SetBestDungeonScore(bestDungeonScoreForEntry)
     self:SetFactionIndex(userFactionIndex)
     self:SetSpecID(specId)
+    self:SetIsLeaver(isLeaver)
     self:SetIsMeetingStone(isMeetingStone)
     if (pvpRatingInfo) then
         self:SetPvPRating(pvpRatingInfo.rating)

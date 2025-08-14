@@ -435,16 +435,21 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
     if activity:GetAge() > 0 then
         tooltip:AddLine(string.format(LFG_LIST_TOOLTIP_AGE, SecondsToTime(activity:GetAge(), false, false, 1, false)))
     end
+    local groupHasLeaver = false
     --2022-11-17
     if activity:GetDisplayType() == Enum.LFGListDisplayType.ClassEnumerate then
         tooltip:AddSepatator()
         tooltip:AddLine(string.format(LFG_LIST_TOOLTIP_MEMBERS_SIMPLE, activity:GetNumMembers()))
         for i = 1, activity:GetNumMembers() do
-            local role, class, classLocalized, specLocalized = LfgService:GetSearchResultMemberInfo(activity:GetID(), i)
+            local role, class, classLocalized, specLocalized, _, isLeaver = LfgService:GetSearchResultMemberInfo(activity:GetID(), i)
             local classColor                                 = RAID_CLASS_COLORS[class] or NORMAL_FONT_COLOR
-            tooltip:AddLine(string.format(LFG_LIST_TOOLTIP_CLASS_ROLE, classLocalized, specLocalized or _G[role]),
+            local leaverString = isLeaver and " "..CreateAtlasMarkup("groupfinder-icon-leaver", 12, 12, 0, 0) or ""
+            tooltip:AddLine(string.format(LFG_LIST_TOOLTIP_CLASS_ROLE, classLocalized, specLocalized or _G[role])..leaverString,
                 classColor.r,
                 classColor.g, classColor.b)
+            if not groupHasLeaver then
+                groupHasLeaver = isLeaver
+            end
         end
     else
         -- Modification begin
@@ -452,7 +457,7 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
         local roles = {}
         local classInfo = {}
         for i = 1, activity:GetNumMembers() do
-            local role, class, classLocalized, specLocalized = LfgService:GetSearchResultMemberInfo(activity:GetID(), i)
+            local role, class, classLocalized, specLocalized, _, isLeaver = LfgService:GetSearchResultMemberInfo(activity:GetID(), i)
             if (class) then
                 classInfo[class .. specLocalized] = {
                     name = classLocalized,
@@ -462,6 +467,9 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
                 if not roles[role] then roles[role] = {} end
                 if not roles[role][class .. specLocalized] then roles[role][class .. specLocalized] = 0 end
                 roles[role][class .. specLocalized] = roles[role][class .. specLocalized] + 1
+                if not groupHasLeaver then
+                    groupHasLeaver = isLeaver
+                end
             end
         end
 
@@ -537,6 +545,11 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
     tooltip:AddLine('Mode: ' .. tostring(activity:GetMode()))
     --@end-debug@]=]
 
+    if groupHasLeaver then
+        tooltip:AddSepatator()
+        GameTooltip_AddErrorLine(tooltip, MYTHIC_PLUS_DESERTER_GROUP_WARNING)
+    end
+
     tooltip:Show()
 end
 
@@ -551,6 +564,7 @@ function MainPanel:OpenApplicantTooltip(applicant)
     local itemLevel = applicant:GetItemLevel()
     local comment = applicant:GetMsg()
     local useHonorLevel = applicant:IsUseHonorLevel()
+    local isLeaver = applicant:GetIsLeaver()
 
     GameTooltip:SetOwner(self, 'ANCHOR_NONE')
     GameTooltip:SetPoint('TOPLEFT', self, 'TOPRIGHT', 0, 0)
@@ -561,6 +575,16 @@ function MainPanel:OpenApplicantTooltip(applicant)
         GameTooltip:AddLine(string.format(UNIT_TYPE_LEVEL_TEMPLATE, level, localizedClass), 1, 1, 1)
     else
         GameTooltip:AddHeader(UnitName('none'), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
+    end
+    if isLeaver then
+        local textureSettings = {
+			width = 12,
+			height = 12,
+			anchor = Enum.TooltipTextureAnchor.LeftCenter,
+			margin = { left = 3, right = 5, top = 0, bottom = 0 },
+		}
+		GameTooltip:AddLine(MYTHIC_PLUS_DESERTER)
+		GameTooltip:AddAtlas("groupfinder-icon-leaver", textureSettings)
     end
     GameTooltip:AddLine(string.format(LFG_LIST_ITEM_LEVEL_CURRENT, itemLevel), 1, 1, 1)
     if useHonorLevel then
