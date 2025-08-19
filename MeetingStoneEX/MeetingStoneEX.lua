@@ -12,75 +12,19 @@ local function LfgService_GetSearchResultMemberInfo(...)
     end
 end
 
---当前版本的地下城副本
--- ACTIVITY_NAMES = {
--- '麦卡贡垃圾场'
--- ,'麦卡贡车间'
--- ,'卡拉赞下层'
--- ,'卡拉赞上层'
--- ,'钢铁码头'
--- ,'恐轨车站'
--- ,'塔扎维什：琳彩天街'
--- ,'塔扎维什：索·莉亚的宏图'
--- }
-
--- 10.0 版本的地下城副本
--- ACTIVITY_NAMES = {
---     '艾杰斯亚学院'
---     ,'红玉新生法池'
---     ,'碧蓝魔馆'
---     ,'诺库德阻击战'
---     ,'影月墓地'
---     ,'群星庭院'
---     ,'英灵殿'
---     ,'青龙寺'
--- }
-
--- 10.0 - 302,306,307,308,309,12,120,114,61
--- 10.1 - 303,304,305,309,142,138,115,59
--- /dump C_LFGList.GetActivityGroupInfo(302)
-
--- 10.1
--- local Dungeons = {303,304,305,309,142,138,115,59}
--- local Activitys = {1164,1168,1172,1188,518,507,462,1192}
--- /run for i=510,511 do local info = C_LFGList.GetActivityInfoTable(i); if info then print(i, info.fullName) end end
-
--- 11.1
--- local Dungeons = { 322, 324, 325, 327, 140, 257, 266, 371 }
--- local Activitys = { 1282, 1281, 1283, 1286, 510, 683, 717, 1550 }
--- 暗焰裂口 322 /1282
--- 圣焰隐修院 324 / 1281
--- 驭雷栖巢 325 / 1283
--- 燧酿酒庄 327 / 1286
--- 暴富矿区 140 / 510
--- 麦卡贡车间 257 / 683
--- 伤逝剧场 266 / 717
--- 水闸行动 371 / 1550
-
---更新方法：https://wago.tools/db2/GroupFinderActivity?locale=zhCN
---Dungeons = GroupFinderActivityGrpID
---Activitys = ID（用史诗钥石版本）
-
--- 11.2 S3
--- local Dungeons = { 261, 280, 281, 323, 324, 326, 371, 381 }
--- local Activitys = { 699, 1016, 1017, 1284, 1281, 1285, 1550, 1694 }
--- 赎罪大厅 261 / 699
--- 塔扎维什：琳彩天街 280 / 1016
--- 塔扎维什：索·莉亚的宏图 281 / 1017
--- 艾拉-卡拉，回响之城 323 / 1284
--- 圣焰隐修院 324 / 1281
--- 破晨号 326 / 1285
--- 水闸行动 371 / 1550
--- 奥尔达尼生态圆顶 381 / 1694
-
 -- 2023-01-01 使用ID，避免台服文字不匹配
+-- 2025-08-19 使用API获取，兼容各个赛季
 ACTIVITY_NAMES = {}
 do
-    -- 11.2 S3
-    local Activitys = { 699, 1016, 1017, 1284, 1281, 1285, 1550, 1694 }
-    for k, actId in ipairs(Activitys) do
-        local info = C_LFGList.GetActivityInfoTable(actId)
-        tinsert(ACTIVITY_NAMES, info.fullName)
+    local seasonGroups = C_LFGList.GetAvailableActivityGroups(GROUP_FINDER_CATEGORY_ID_DUNGEONS, bit.bor(Enum.LFGListFilter.CurrentSeason, Enum.LFGListFilter.PvE));
+    for _, groupId in ipairs(seasonGroups) do
+        local activities = C_LFGList.GetAvailableActivities(GROUP_FINDER_CATEGORY_ID_DUNGEONS, groupId)
+        for _, activityId in ipairs(activities) do
+            local activityInfo = C_LFGList.GetActivityInfoTable(activityId)
+            if activityInfo and activityInfo.isMythicPlusActivity then
+                tinsert(ACTIVITY_NAMES, activityInfo.fullName)
+            end
+        end
     end
 end
 
