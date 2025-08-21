@@ -44,6 +44,12 @@ local function MakeActivityMenuTable(activityId, baseFilter, customId, menuType)
     local groupId = activityInfo.groupFinderActivityGroupID;
     local filters = activityInfo.filters;
 
+    --1574这个地下堡的11层写成了10层(闸板陋巷（难度10）)
+    --copied from https://gitee.com/xmmmmm/meeting-stone_-happy
+    if activityId == 1574 then
+        fullName = string.gsub(fullName , '10' , '11')
+    end
+
     if customId then
         fullName = ACTIVITY_CUSTOM_NAMES[customId]
     end

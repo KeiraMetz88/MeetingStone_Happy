@@ -460,6 +460,7 @@ function MainPanel:OpenActivityTooltip(activity, tooltip)
         for i = 1, activity:GetNumMembers() do
             local role, class, classLocalized, specLocalized, _, isLeaver = LfgService:GetSearchResultMemberInfo(activity:GetID(), i)
             if (class) then
+                specLocalized = specLocalized or _G["UNKNOWN"]
                 classInfo[class .. specLocalized] = {
                     name = classLocalized,
                     color = RAID_CLASS_COLORS[class] or NORMAL_FONT_COLOR,
